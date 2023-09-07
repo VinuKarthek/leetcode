@@ -1,11 +1,21 @@
 import unittest
 import time
 
-#1768. Merge Strings Alternately
-
+#2390. Removing Stars From a String
+'''
+Use two stack one for result and another as temporary
+'''
 class Solution:
-    def mergeAlternately(self, word1: str, word2: str) -> str:
-        return
+    def removeStars(self, s: str) -> str:
+        stack = []
+        for ch in s:
+            # if ch == '*' and len(stack)>0: 220ms
+            if ch == '*' and stack: #180ms
+                stack.pop()
+            else:
+                stack.append(ch)
+        return ''.join(stack)
+
         
 
 class TestSolution(unittest.TestCase):
@@ -19,34 +29,22 @@ class TestSolution(unittest.TestCase):
             print(f"{func.__name__} executed in {execution_time:.4f} seconds")
             return result
         return wrapper
-
+    
     def setUp(self):
         self.solution = Solution()
-        self.method = self.solution.mergeAlternately
-    
+        self.method = self.solution.removeStars
+
     @time_it
     def test_case1(self):
-        word1 = "ab"
-        word2 = "pqrs"
-        self.assertEqual(self.method(word1, word2), "apbqrs")
+        self.assertEqual( self.method("leet**cod*e"), "lecoe")
     
     @time_it
     def test_case2(self):
-        word1 = "abc"
-        word2 = "pqr"
-        self.assertEqual(self.method(word1, word2), "apbqcr")
+        self.assertEqual(self.method("erase*****"), "")
 
     @time_it
     def test_case3(self):
-        word1 = "abcd"
-        word2 = "pq"
-        self.assertEqual(self.method(word1, word2), "apbqcd")
-
-    @time_it
-    def test_case4(self):
-        word1 = ""
-        word2 = ""
-        self.assertEqual(self.method(word1, word2), "")
+        self.assertEqual(self.method("****************"), "")
 
 if __name__ == "__main__":
     unittest.main()
